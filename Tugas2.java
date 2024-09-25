@@ -70,6 +70,5 @@ public class Tugas2 {
         }
 
         input.close();
-
     }
 }
