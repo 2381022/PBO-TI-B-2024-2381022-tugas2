@@ -1,182 +1,74 @@
 import java.util.Scanner;
-
 public class Tugas2 {
-    public static String[] todos = new String[10];
-    public static Scanner sc = new Scanner(System.in);
+
+    public static int hitungLuasPersegi(int sisi) {
+        int luasPersegi = sisi * sisi;
+        return luasPersegi;
+    }
+    public static int hitungKelilingPersegi(int sisi) {
+        int kelilingPersegi = 4 * sisi;
+        return kelilingPersegi;
+    }
+    public static double hitungLuasPersegiPanjang(double panjang, double lebar){
+        double  luasPersegiPanjang = panjang * lebar;
+        return luasPersegiPanjang;
+    }
+    public static double hitungKelilingPersegiPanjang(double panjang, double lebar) {
+        double kelilingPersegiPanjang = 2 * (panjang + lebar);
+        return kelilingPersegiPanjang;
+    }
+    public static double hitungLuasLingkaran(double jariJari) {
+        return Math.PI * jariJari * jariJari;  // Menggunakan Math.PI untuk π
+    }
+    public static double hitungKelilingLingkaran(double jariJari) {
+        return 2 * Math.PI * jariJari;  // Menggunakan Math.PI untuk π
+    }
 
     public static void main(String[] args) {
-        System.out.println("Before edit");
-        addTodoList("Belajar");
-        addTodoList("Menggambar");
-        addTodoList("Menulis");
-        addTodoList("Menyetir");
-        System.out.println("After edit");
-        editTodoList(2, "Menari");
-        showTodolist();
-    }
+        Scanner input = new Scanner(System.in);
 
-    public static void showTodolist() {
-        System.out.println("TODO LIST");
-        for (int i = 0; i < todos. length; i++){
-            String todo = todos[i];
-            if (todo != null) {
-                System.out.println((i + 1) + ", " + todo);
-            }
-        }
-    }
+        System.out.println("Pilih bangun datar:");
+        System.out.println("1. Persegi");
+        System.out.println("2. Persegi Panjang");
+        System.out.println("3. Lingkaran");
+        System.out.print("Masukkan pilihan (1, 2 atau 3): ");
+        int pilihan = input.nextInt();
 
-    public static void addTodoList(String todo) {
+        if (pilihan == 1) {
+            System.out.print("Masukkan panjang sisi persegi: ");
+            int sisi = input.nextInt();
 
-        resizeIfFull();
+            int luasPersegi = hitungLuasPersegi(sisi);
+            int kelilingPersegi = hitungKelilingPersegi(sisi);
 
-        // add todo to array that has null element
-        for (int i = 0; i < todos.length; i++) {
-            if (todos[i] == null) {
-                todos[i] = todo;
-                break;
-            }
-        }
-    }
+            System.out.println("Luas persegi: " + luasPersegi);
+            System.out.println("Keliling persegi: " + kelilingPersegi);
+        } else if (pilihan == 2) {
+            System.out.print("Masukkan panjang persegi panjang: ");
+            int panjang = input.nextInt();
 
-    private static void resizeIfFull() {
-        // chek is full
-        boolean isFull = true;
-        for (int i= 0; i < todos.length; i++) {
-            if (todos[i] == null) {
-                isFull = false;
-                break;
-            }
-        }
+            System.out.print("Masukkan lebar persegi panjang: ");
+            int lebar = input.nextInt();
 
-        // Resize to two times bigger is Full
-        if (isFull) {
-            resizeArrayToTwoTimesBigger();
-        }
-    }
+            double luasPersegiPanjang = hitungLuasPersegiPanjang(panjang , lebar);
+            double kelilingPersegiPanjang = hitungKelilingPersegiPanjang(panjang, lebar);
 
-    private static void resizeArrayToTwoTimesBigger() {
-        String[] temp = todos;
-        todos = new String[todos.length * 2];
-        for (int i = 0; i < temp.length; i++) {
-            todos[i] = temp[i];
-        }
-    }
+            System.out.println("Luas persegi panjang: " + luasPersegiPanjang);
+            System.out.println("Keliling persegi panjang: " + kelilingPersegiPanjang);
+        } else if (pilihan == 3) {
+            System.out.print("Masukkan jari-jari lingkaran: ");
+            int jariJari = input.nextInt();
 
-    public static boolean removeTodoList(Integer number) {
-        if (isSelectedTodoNotValid(number)) {
-            return false;
-        }
+            double luasLingkaran = hitungLuasLingkaran(jariJari);
+            double kelilingLingkaran = hitungKelilingLingkaran(jariJari);
 
-        for (int i = number - 1; i < todos.length; i++) {
-            //if todo is the last element
-            if (i == (todos.length - 1)) {
-                todos[i] = null;
-            } else {
-                // replace with the element on the right
-                todos[i] = todos[i + 1];
-            }
-        }
-        return true;
-    }
+            System.out.println("Luas lingkaran: " + luasLingkaran);
+            System.out.println("Keliling lingkaran: " + kelilingLingkaran);
 
-    private static boolean isSelectedTodoNotValid(Integer number) {
-        // check if the number is less then equal zero
-        if (number <= 0) {
-            return true;
-        }
-
-        // check if the number greater than the todos size/zero
-        if (number - 1 > todos.length - 1) {
-            return true;
-        }
-
-        //check whether the element is already null
-        if (todos[number - 1] == null) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean editTodoList(Integer number,  String newTodo) {
-        if (isSelectedTodoNotValid(number)) {
-            return false;
-        }
-        todos[number - 1] = newTodo;
-        return true;
-    }
-
-    public static String input(String info) {
-        System.out.print(info + " : ");
-        String data = sc.nextLine();
-        return data;
-    }
-
-    public static void showMainMenu() {
-        boolean isRunning = true;
-        while (isRunning) {
-            showTodolist();
-            System.out.println("1. Tambah");
-            System.out.println("2. Hapus");
-            System.out.println("3. Edit");
-            System.out.println("4. Keluar");
-            String selectedMenu = input("pilih");
-
-            switch (selectedMenu) {
-                case "1":
-                    showMenuAddTodoList();
-                    break;
-                case "2":
-                    showMenuRemoveTodolist();
-                    break;
-                case "3":
-                    showMenuEditTodoList();
-                    break;
-                case "4":
-                    isRunning = false;
-                    break;
-            }
-        }
-    }
-
-    public static void showMenuAddTodoList() {
-        System.out.println("MENAMBAH TODO LIST");
-        String todo = input("Todo (x jika batal)");
-        if (todo.equals("x")) {
-            //batal
         } else {
-            addTodoList(todo);
+            System.out.println("Pilihan tidak valid.");
         }
-    }
 
-    public static void   showMenuRemoveTodolist() {
-        System.out.println("MEENGHAPUS TODO LIST");
-        String number = input("Nomor yang dihapus (x jika batal)");
-        if (number.equals("x")) {
-            //batal
-        } else {
-            boolean success = removeTodoList(Integer.parseInt(number));
-            if (success) {
-                System.out.println("Gagal menghapus todo list : " + number);
-            }
-        }
+        input.close();
     }
-
-    public static void showMenuEditTodoList() {
-        System.out.println("MENGEDIT TODO LIST");
-        String selectedTodo = input("Masukan nomot todo (x jika batal)");
-        if (selectedTodo.equals("x")) {
-            return;
-        }
-        String newTodo = input("Masukan todo yang baru (x jika batal");
-        if (newTodo.equals("x")) {
-            return;
-        }
-        boolean isEditTodoSuccess = editTodoList(Integer.parseInt(selectedTodo), newTodo);
-        if (isEditTodoSuccess) {
-            System.out.println("Berhasil mengedit todo");
-        } else {
-            System.out.println("Gagal mengedit todo");
-        }
-    }
-
 }
